@@ -7,18 +7,18 @@ from ..debug import log
 ## ALL DECLARATION
 
 __all__ = (
-    'Race',
+    'Hero',
     )
 
 ## RACE CLASS DEFINITION
 
-class Race:
+class Hero:
 
     _skills = set()
 
     '''
 
-    Initialization of races, which builds
+    Initialization of heroes, which builds
     all skills, and dictionaries required.
 
     '''
@@ -63,7 +63,7 @@ class Race:
 
     '''
 
-    Management of current race,
+    Management of current hero,
     experience and levels. Added access
     to give and take levels/experience.
 
@@ -85,7 +85,7 @@ class Race:
 
     def give_experience(self, amount):
         if not isinstance(amount, int):
-            raise TypeError('<Race>.give_experience will only take integer values.')
+            raise TypeError('<Hero>.give_experience will only take integer values.')
 
         self._experience += amount
         while self._experience >= self.required_experience(self._level):
@@ -94,7 +94,7 @@ class Race:
 
     def take_experience(self, amount):
         if not isinstance(amount, int):
-            raise TypeError('<Race>.take_experience will only take integer values.')
+            raise TypeError('<Hero>.take_experience will only take integer values.')
 
         self._experience -= amount
         while self._experience < 0:
@@ -103,13 +103,13 @@ class Race:
 
     def give_levels(self, amount):
         if not isinstance(amount, int):
-            raise TypeError('<Race>.give_levels will only take integer values.')
+            raise TypeError('<Hero>.give_levels will only take integer values.')
 
         self._level += amount
 
     def take_levels(self, amount):
         if not isinstance(amount, int):
-            raise TypeError('<Race>.take_levels will only take integer values.')
+            raise TypeError('<Hero>.take_levels will only take integer values.')
 
         self._level -= amount
 
@@ -131,7 +131,7 @@ class Race:
     '''
 
     Decorators for embedding skills into
-    races.
+    heroes.
 
     '''
 
@@ -147,7 +147,7 @@ class Race:
     '''
 
     Form dictionaries of all subclassed
-    races.
+    heroes.
 
     '''
 

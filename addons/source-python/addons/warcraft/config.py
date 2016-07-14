@@ -2,6 +2,8 @@
 
 from paths import PLUGIN_PATH
 
+from .heroes.undead import Undead
+
 ## CONFIGURATION
 
 LOG_PRIORITY = 0
@@ -13,3 +15,5 @@ MYSQL_ADDRESS = None
 MYSQL_LOGIN = None
 MYSQL_PASSWORD = None
 MYSQL_DATABASE_NAME = None
+
+WARCRAFT_DEFAULT_HERO = Undead
