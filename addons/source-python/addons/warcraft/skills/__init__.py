@@ -24,6 +24,22 @@ class Skill:
 
         log(2, 'Initialized {}.'.format(self.__cls__.__name__))
 
+    @property
+    def level(self):
+        return self._level
+
+    def give_levels(self, amount):
+        if not isinstance(amount, int):
+            raise TypeError('<Skill>.give_levels will only take integer values.')
+
+        self._level += amount
+
+    def take_levels(self, amount):
+        if not isinstance(amount, int):
+            raise TypeError('<Skill>.take_levels will only take integer values.')
+
+        self._level -= amount
+
 ## DECORATORS
 
 def clientcommands(*clientcommands):
