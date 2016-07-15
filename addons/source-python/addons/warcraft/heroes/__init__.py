@@ -51,7 +51,7 @@ class Hero:
                         self._clientcommands[clientcommand].add(method)
 
 
-        log(2, 'Initialized {}.'.format(self.__cls__.__name__))
+        log(2, 'Initialized {}.'.format(self.__class__.__name__))
 
     @property
     def clientcommands(self):
@@ -140,7 +140,7 @@ class Hero:
         self._skills.add(skill)
 
         log(2, 'Embeded skill {} into {}.'.format(skill.__name__,
-            self.__cls__.__name__))
+            self.__class__.__name__))
 
         return skill
 

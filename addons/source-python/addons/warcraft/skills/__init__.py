@@ -22,7 +22,7 @@ class Skill:
     def __init__(self, level=0):
         self._level = level
 
-        log(2, 'Initialized {}.'.format(self.__cls__.__name__))
+        log(2, 'Initialized {}.'.format(self.__class__.__name__))
 
     @property
     def level(self):
