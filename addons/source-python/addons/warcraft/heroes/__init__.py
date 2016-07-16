@@ -153,4 +153,10 @@ class Hero:
 
     @classmethod
     def get_subclasses(cls):
-        yield from cls.__subclasses__()
+        for subcls in cls.__subclasses__():
+            yield subcls
+            yield from subcls.subclasses
+
+    @classmethod
+    def get_subclass_dict(cls):
+        return {subcls.__class__.__name__: subcls for subcls in cls.get_subclasses()}
