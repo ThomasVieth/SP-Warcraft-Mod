@@ -71,17 +71,17 @@ class SQLite:
     def add_player(self, player):
         self.execute('INSERT INTO Players (SteamID, Hero, Name) VALUES (?, ?, ?)',
             (player.steamid, WARCRAFT_DEFAULT_HERO.__name__, player.name))
-        self.add_hero(player, WARCRAFT_DEFAULT_HERO)
+        self.add_hero(player, WARCRAFT_DEFAULT_HERO())
 
     def add_hero(self, player, hero):
         self.execute('INSERT INTO Heroes (SteamID, Name, Experience, Level) VALUES (?, ?, ?, ?)',
-            (player.steamid, hero.__name__, 0, 0))
-        for skill in hero._skills:
+            (player.steamid, hero.__class__.__name__, 0, 0))
+        for skill in hero.skills:
             self.add_skill(player, hero, skill)
 
     def add_skill(self, player, hero, skill):
         self.execute('INSERT INTO Skills (SteamID, Hero, Name, Level) VALUES (?, ?, ?, ?)',
-            (player.steamid, hero.__name__, skill.__name__, 0))
+            (player.steamid, hero.__class__.__name__, skill.__class__.__name__, 0))
 
     '''
 
@@ -113,7 +113,7 @@ class SQLite:
 
     def get_player_skill_level(self, player, hero, skill):
         self.execute('SELECT Level FROM Skills WHERE SteamID=? AND Hero=? AND Skill=?', 
-            (player.steamid, hero.__cls__.__name__, skill.__class__.__name__))
+            (player.steamid, hero.__class__.__name__, skill.__class__.__name__))
         fetched_data = self.cursor.fetchone()
         if fetched_data is None:
             return None
@@ -139,6 +139,6 @@ class SQLite:
             (hero.experience, hero.level,
                 player.steamid, hero.__class__.__name__))
 
-    def set_player_skill_data(self, player, hero, skill):
+    def set_player_skill_level(self, player, hero, skill):
         self.execute('UPDATE Skills SET Level=? WHERE SteamID=? AND Hero=? AND Name=?',
             (skill.level, player.steamid, hero.__class__.__name__, skill.__class__.__name__))
