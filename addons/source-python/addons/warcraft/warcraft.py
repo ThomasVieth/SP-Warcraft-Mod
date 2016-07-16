@@ -3,6 +3,7 @@
 from events import Event
 from players.dictionary import PlayerDictionary
 
+from .config import WARCRAFT_KILL_EXPERIENCE
 from .database import load_player_data
 from .database import load_hero_data
 from .database import save_player_data
@@ -30,3 +31,10 @@ def _on_disconnect_save_data(event_data):
 def _on_death_save_data(event_data):
     player = players.from_userid(event_data['userid'])
     save_hero_data(player)
+
+## EXPERIENCE GAIN
+
+@Event('player_death')
+def _on_kill_give_experience(event_data):
+    attacker = players.from_userid(event_data['attacker'])
+    attacker.hero.give_experience(WARCRAFT_KILL_EXPERIENCE)
