@@ -113,7 +113,7 @@ class SQLite:
         return self.cursor.fetchone()
 
     def get_player_skill_level(self, player, hero, skill):
-        self.execute('SELECT Level FROM Skills WHERE SteamID=? AND Hero=? AND Skill=?', 
+        self.execute('SELECT Level FROM Skills WHERE SteamID=? AND Hero=? AND Name=?', 
             (player.steamid, hero.__class__.__name__, skill.__class__.__name__))
         fetched_data = self.cursor.fetchone()
         if fetched_data is None:

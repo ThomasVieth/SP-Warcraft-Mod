@@ -156,8 +156,8 @@ class Hero:
     def skill(self, skill):
         self._skills.add(skill)
 
-        log(2, 'Embeded skill {} into {}.'.format(skill.__name__,
-            self.__class__.__name__))
+        log(2, 'Embedded skill {} into {}.'.format(skill.__name__,
+            self.__name__))
 
         return skill
 
