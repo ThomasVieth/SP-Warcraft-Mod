@@ -28,6 +28,10 @@ class Skill:
     def level(self):
         return self._level
 
+    @level.setter
+    def level(self, amount):
+        self._level = amount
+
     def give_levels(self, amount):
         if not isinstance(amount, int):
             raise TypeError('<Skill>.give_levels will only take integer values.')
