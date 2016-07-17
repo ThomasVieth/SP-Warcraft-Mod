@@ -4,6 +4,7 @@ from sqlite3 import connect
 
 from ..config import SQLITE_LOCATION
 from ..config import WARCRAFT_DEFAULT_HERO
+from ..heroes import Hero
 
 ## ALL DECLARATION
 
@@ -24,7 +25,6 @@ class SQLite:
 
     '''
 
-    def __init__(self, location):
     def __init__(self, location=SQLITE_LOCATION):
         self.connection = connect(location)
         self.cursor = self.connection.cursor()
@@ -71,8 +71,8 @@ class SQLite:
 
     def add_player(self, player):
         self.execute('INSERT INTO Players (SteamID, Hero, Name) VALUES (?, ?, ?)',
-            (player.steamid, WARCRAFT_DEFAULT_HERO.__name__, player.name))
-        self.add_hero(player, WARCRAFT_DEFAULT_HERO())
+            (player.steamid, WARCRAFT_DEFAULT_HERO, player.name))
+        self.add_hero(player, Hero.get_subclass_dict()[WARCRAFT_DEFAULT_HERO]())
 
     def add_hero(self, player, hero):
         self.execute('INSERT INTO Heroes (SteamID, Name, Experience, Level) VALUES (?, ?, ?, ?)',
