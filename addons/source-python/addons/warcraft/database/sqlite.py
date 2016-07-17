@@ -25,6 +25,7 @@ class SQLite:
     '''
 
     def __init__(self, location):
+    def __init__(self, location=SQLITE_LOCATION):
         self.connection = connect(location)
         self.cursor = self.connection.cursor()
 
