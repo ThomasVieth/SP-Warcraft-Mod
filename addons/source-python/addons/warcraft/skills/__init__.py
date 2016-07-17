@@ -1,5 +1,8 @@
 ## IMPORTS
 
+from os.path import dirname, basename, isfile
+from glob import glob
+
 from ..debug import log
 
 ## ALL DECLARATION
@@ -7,6 +10,13 @@ from ..debug import log
 __all__ = (
     'Skill',
     )
+
+## INIT ALL SKILL MODULES
+
+modules = glob(dirname(__file__) + '/*.py')
+skills = tuple(basename(f)[:-3] for f in modules if isfile(f))
+
+__all__ += skills
 
 ## SKILL CLASS DEFINITION
 

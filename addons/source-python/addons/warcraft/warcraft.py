@@ -11,6 +11,7 @@ from .database import save_player_data
 from .database import save_hero_data
 from .database import manager
 from .heroes import *
+from .skills import *
 
 ## GLOBALS
 
@@ -34,7 +35,7 @@ def _on_spawn_message(event_data):
         player.hero.name, player.hero.level,
         player.hero.experience, player.hero.required_experience(player.hero.level)
         )).send(player.index)
-        
+
 @Event('player_disconnect')
 def _on_disconnect_save_data(event_data):
     player = players[event_data['userid']]
