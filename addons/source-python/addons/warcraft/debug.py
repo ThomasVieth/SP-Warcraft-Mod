@@ -15,8 +15,6 @@ __all__ = (
 
 ## LOG FUNCTIONS
 
-log_location = 
-
 def write_to_log(text):
     with open(LOG_LOCATION, 'a+') as log_book:
         log_book.writelines('{} ({}){}'.format(text, strftime('%X'), '\n'))
@@ -33,7 +31,7 @@ log_priority = {
 
 ## LOG FUNCTION DEFINITION
 
-def log(priority=0:int, *args):
+def log(priority=0, *args):
     if priority not in log_priority:
         return
 
