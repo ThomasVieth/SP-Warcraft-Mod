@@ -1,6 +1,8 @@
 ## IMPORTS
 
 from collections import defaultdict
+from os.path import dirname, basename, isfile
+from glob import glob
 
 from ..debug import log
 
@@ -9,6 +11,13 @@ from ..debug import log
 __all__ = (
     'Hero',
     )
+
+## INIT ALL HERO MODULES
+
+modules = glob(dirname(__file__) + '/*.py')
+heroes = tuple(basename(f)[:-3] for f in modules if isfile(f))
+
+__all__ += heroes
 
 ## RACE CLASS DEFINITION
 
@@ -73,9 +82,17 @@ class Hero:
     def experience(self):
         return self._experience
 
+    @experience.setter
+    def experience(self, amount):
+        self._experience = amount
+
     @property
     def level(self):
         return self._level
+
+    @level.setter
+    def level(self, amount):
+        self._level = amount
 
     def unused_points(self, level):
         return self._level - sum(skill._level for skill in self.skills)
@@ -155,8 +172,8 @@ class Hero:
     def get_subclasses(cls):
         for subcls in cls.__subclasses__():
             yield subcls
-            yield from subcls.subclasses
+            yield from subcls.get_subclasses()
 
     @classmethod
     def get_subclass_dict(cls):
-        return {subcls.__class__.__name__: subcls for subcls in cls.get_subclasses()}
+        return {subcls.__name__: subcls for subcls in cls.get_subclasses()}
