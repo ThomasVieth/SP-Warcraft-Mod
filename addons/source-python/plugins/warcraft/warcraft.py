@@ -70,11 +70,13 @@ def _on_kill_assist_give_experience(event_data):
         assister = players[event_data['assister']]
 
     attacker.hero.give_experience(WARCRAFT_KILL_EXPERIENCE)
-    give_experience.send(attacker.index, amount=WARCRAFT_KILL_EXPERIENCE)
+    give_experience.send(attacker.index, amount=WARCRAFT_KILL_EXPERIENCE,
+        reason='for killing an enemy')
 
     if assister:
         assister.hero.give_experience(WARCRAFT_ASSIST_EXPERIENCE)
-        give_experience.send(assister.index, amount=WARCRAFT_ASSIST_EXPERIENCE)
+        give_experience.send(assister.index, amount=WARCRAFT_ASSIST_EXPERIENCE,
+        reason='for assisting a kill')
         
 
 ## CALL EVENTS
