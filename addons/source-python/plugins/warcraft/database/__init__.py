@@ -40,7 +40,6 @@ def load_hero_data(player):
     for skill in player.hero.skills:
         level = manager.get_player_skill_level(player, player.hero, skill)
         if not level:
-            manager.add_skill(player, player.hero, skill)
             level = 0
         skill.level = level
 

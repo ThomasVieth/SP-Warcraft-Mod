@@ -3,7 +3,7 @@
 from events import Event
 from players.entity import Player
 from messages import SayText2
-from translations import LangStrings
+from translations.strings import LangStrings
 
 from .config import WARCRAFT_KILL_EXPERIENCE
 from .config import WARCRAFT_ASSIST_EXPERIENCE
