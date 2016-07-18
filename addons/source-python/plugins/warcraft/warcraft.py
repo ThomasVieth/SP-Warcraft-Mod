@@ -3,6 +3,7 @@
 from events import Event
 from players.entity import Player
 from messages import SayText2
+from translations import LangStrings
 
 from .config import WARCRAFT_KILL_EXPERIENCE
 from .config import WARCRAFT_ASSIST_EXPERIENCE
@@ -17,10 +18,17 @@ from .skills import *
 ## GLOBALS
 
 players = dict()
+strings = LangStrings('warcraft')
 
 def unload():
     manager.connection.commit()
     manager.connection.close()
+
+## MESSAGE DEFINITION
+
+show_experience = SayText2(message=strings['show_experience'])
+give_experience = SayText2(message=strings['give_experience'])
+take_experience = SayText2(message=strings['take_experience'])
 
 ## DATABASE MANAGMENT
 
@@ -32,10 +40,9 @@ def _on_spawn_message(event_data):
         load_hero_data(player)
 
     player = players[event_data['userid']]
-    SayText2('Playing {} LV {}, XP {}/{}'.format(
-        player.hero.name, player.hero.level,
-        player.hero.experience, player.hero.required_experience(player.hero.level)
-        )).send(player.index)
+    show_experience.send(player.index, hero=player.hero.name, level=player.hero.level,
+        experience=player.hero.experience,
+        needed=player.hero.required_experience(player.hero.level))
 
 @Event('player_disconnect')
 def _on_disconnect_save_data(event_data):
@@ -63,9 +70,11 @@ def _on_kill_assist_give_experience(event_data):
         assister = players[event_data['assister']]
 
     attacker.hero.give_experience(WARCRAFT_KILL_EXPERIENCE)
+    give_experience.send(attacker.index, amount=WARCRAFT_KILL_EXPERIENCE)
 
     if assister:
         assister.hero.give_experience(WARCRAFT_ASSIST_EXPERIENCE)
+        give_experience.send(assister.index, amount=WARCRAFT_ASSIST_EXPERIENCE)
         
 
 ## CALL EVENTS
