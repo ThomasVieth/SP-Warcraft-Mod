@@ -35,10 +35,14 @@ def load_hero_data(player):
     data = manager.get_player_hero_data(player)
     if not data:
         manager.add_hero(player, player.hero)
-        data = manager.get_player_hero_data(player)
+        data = (0, 0)
     player.hero.experience, player.hero.level = data
     for skill in player.hero.skills:
-        skill.level = manager.get_player_skill_level(player, player.hero, skill)
+        level = manager.get_player_skill_level(player, player.hero, skill)
+        if not level:
+            manager.add_skill(player, player.hero, skill)
+            level = 0
+        skill.level = level
 
 def save_player_data(player):
     manager.set_player_hero(player)
