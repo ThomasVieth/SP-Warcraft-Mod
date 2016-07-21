@@ -1,9 +1,20 @@
 ## IMPORTS
 
+from commands import CommandReturn
+from commands.say import SayCommand
 from events import Event
 from players.entity import Player
+from players.helpers import userid_from_index
+from menus import ListMenu
+from menus import ListOption
+from menus import PagedMenu
+from menus import PagedOption
+from menus import Text
 from messages import SayText2
 from translations.strings import LangStrings
+
+from .heroes import *
+from .skills import *
 
 from .config import WARCRAFT_KILL_EXPERIENCE
 from .config import WARCRAFT_ASSIST_EXPERIENCE
@@ -12,8 +23,6 @@ from .database import load_hero_data
 from .database import save_player_data
 from .database import save_hero_data
 from .database import manager
-from .heroes import *
-from .skills import *
 
 ## GLOBALS
 
@@ -29,6 +38,65 @@ def unload():
 show_experience = SayText2(message=strings['show_experience'])
 give_experience = SayText2(message=strings['give_experience'])
 take_experience = SayText2(message=strings['take_experience'])
+
+## MENU DEFINITION
+
+def _on_spend_skills_build(menu, index):
+    player = players[userid_from_index(index)]
+    menu.clear()
+    menu.description = strings['unused'].get_string(
+        amount=player.hero.unused_points(player.hero.level))
+    for skill in player.hero.skills:
+        menu.append(PagedOption(strings['skill'].get_string(name=skill.name,
+            level=skill.level, max_level=skill.max_level), skill))
+
+def _on_spend_skills_select(menu, index, choice):
+    player = players[userid_from_index(index)]
+    skill = choice.value
+    if player.hero.unused_points(player.hero.level) and skill.level < skill.max_level:
+        skill.give_levels(1)
+    return menu
+
+spend_skills = PagedMenu(
+    title=strings['spend_skills'],
+    build_callback=_on_spend_skills_build,
+    select_callback=_on_spend_skills_select,
+)
+
+def _on_change_hero_build(menu, index):
+    player = players[userid_from_index(index)]
+    menu.clear()
+    menu.description = strings['change_hero']
+    for hero in Hero.get_subclasses():
+        menu.append(PagedOption(strings['hero'].get_string(hero=hero.name,
+            requirement=hero.requirement), hero))
+
+def _on_change_hero_select(menu, index, choice):
+    player = players[userid_from_index(index)]
+    hero = choice.value
+    if not hero.name == player.hero.name and hero.meets_requirements(player):
+        player.client_command('kill', True)
+        player.hero = hero()
+        load_hero_data(player)
+    return
+
+change_hero = PagedMenu(
+    title=strings['change_hero'],
+    build_callback=_on_change_hero_build,
+    select_callback=_on_change_hero_select,
+)
+
+## SAY REGISTERS
+
+@SayCommand('spendskills')
+def _spend_skills_say_command(command, index, team_only=None):
+    spend_skills.send(index)
+    return CommandReturn.BLOCK
+
+@SayCommand('changehero')
+def _change_hero_say_command(command, index, team_only=None):
+    change_hero.send(index)
+    return CommandReturn.BLOCK
 
 ## DATABASE MANAGMENT
 
