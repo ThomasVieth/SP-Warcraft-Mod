@@ -22,6 +22,8 @@ __all__ += skills
 
 class Skill:
 
+    max_level = 0
+
     '''
 
     Initialization of skill, containing
