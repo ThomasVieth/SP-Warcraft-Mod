@@ -23,7 +23,9 @@ __all__ += heroes
 
 class Hero:
 
-    _skills = set()
+    _skills = tuple()
+
+    requirement = 'None'
 
     '''
 
@@ -95,7 +97,7 @@ class Hero:
         self._level = amount
 
     def unused_points(self, level):
-        return self._level - sum(skill._level for skill in self.skills)
+        return self._level - sum(skill.level for skill in self.skills)
 
     def required_experience(self, level):
         return 80 + (40 * self._level)
@@ -153,11 +155,11 @@ class Hero:
     '''
 
     @classmethod
-    def skill(self, skill):
-        self._skills.add(skill)
+    def skill(cls, skill):
+        cls._skills += (skill, )
 
         log(2, 'Embedded skill {} into {}.'.format(skill.__name__,
-            self.__name__))
+            cls.__name__))
 
         return skill
 
@@ -177,3 +179,7 @@ class Hero:
     @classmethod
     def get_subclass_dict(cls):
         return {subcls.__name__: subcls for subcls in cls.get_subclasses()}
+
+    @classmethod
+    def meets_requirements(self, player):
+        return True
