@@ -57,12 +57,6 @@ def _on_spend_skills_select(menu, index, choice):
         skill.give_levels(1)
     return menu
 
-spend_skills = PagedMenu(
-    title=strings['spend_skills'],
-    build_callback=_on_spend_skills_build,
-    select_callback=_on_spend_skills_select,
-)
-
 def _on_change_hero_build(menu, index):
     player = players[userid_from_index(index)]
     menu.clear()
@@ -80,12 +74,6 @@ def _on_change_hero_select(menu, index, choice):
         load_hero_data(player)
     return
 
-change_hero = PagedMenu(
-    title=strings['change_hero'],
-    build_callback=_on_change_hero_build,
-    select_callback=_on_change_hero_select,
-)
-
 def _on_main_menu_select(menu, index, choice):
     if choice.value in _main_menu_selections:
         return _main_menu_selections[choice.value]
@@ -93,6 +81,24 @@ def _on_main_menu_select(menu, index, choice):
 main_menu = PagedMenu(
     title=strings['main_menu'],
     select_callback=_on_main_menu_select,
+    data=[
+    PagedOption(strings['change_hero'], 1),
+    PagedOption(strings['spend_skills'], 2)
+    ]
+)
+
+change_hero = PagedMenu(
+    title=strings['change_hero'],
+    build_callback=_on_change_hero_build,
+    select_callback=_on_change_hero_select,
+    parent_menu=main_menu,
+)
+
+spend_skills = PagedMenu(
+    title=strings['spend_skills'],
+    build_callback=_on_spend_skills_build,
+    select_callback=_on_spend_skills_select,
+    parent_menu=main_menu,
 )
 
 _main_menu_selections = {
