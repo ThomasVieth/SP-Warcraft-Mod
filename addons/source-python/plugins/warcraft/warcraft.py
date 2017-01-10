@@ -151,7 +151,7 @@ def _on_kill_assist_give_experience(event_data):
 
 @Event('player_death')
 def _on_kill_assist_call_events(event_data):
-    if event_data['userid'] == event_data['attacker']:
+    if event_data['userid'] == event_data['attacker'] or event_data['attacker'] == 0:
         player = players[event_data['userid']]
         player.hero.call_events('player_suicide', player=player)
         return
