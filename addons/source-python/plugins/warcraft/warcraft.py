@@ -86,6 +86,20 @@ change_hero = PagedMenu(
     select_callback=_on_change_hero_select,
 )
 
+def _on_main_menu_select(menu, index, choice):
+    if choice.value in _main_menu_selections:
+        return _main_menu_selections[choice.value]
+
+main_menu = PagedMenu(
+    title=strings['main_menu'],
+    select_callback=_on_main_menu_select,
+)
+
+_main_menu_selections = {
+    1: change_hero,
+    2: spend_skills,
+}
+
 ## SAY REGISTERS
 
 @SayCommand('spendskills')
