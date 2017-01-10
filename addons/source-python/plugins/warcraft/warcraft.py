@@ -112,6 +112,11 @@ def _change_hero_say_command(command, index, team_only=None):
     change_hero.send(index)
     return CommandReturn.BLOCK
 
+@SayCommand('warcraft')
+def _change_hero_say_command(command, index, team_only=None):
+    main_menu.send(index)
+    return CommandReturn.BLOCK
+
 ## DATABASE MANAGMENT
 
 @Event('player_spawn')
