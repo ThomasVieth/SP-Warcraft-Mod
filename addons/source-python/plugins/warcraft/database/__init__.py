@@ -3,6 +3,7 @@
 from ..config import DATABASE_TYPE
 from ..heroes import Hero
 from ..debug import log
+from .mysql import MySQL
 from .sqlite import SQLite
 
 ## ALL DECLARATION
@@ -19,8 +20,12 @@ __all__ = (
 
 if DATABASE_TYPE == 1:
     manager = SQLite()
+elif DATABASE_TYPE == 2:
+    manager = MySQL()
 else:
     log(2, 'Cannot load database. Config files states only types 1 or 2.')
+    manager = SQLite()
+    log(0, 'SQLite has been used by default.')
 
 ## SAVING AND LOADING DATA
 
