@@ -33,7 +33,7 @@ class SQLite:
         
     def execute(self, statement, *args):
         if not isinstance(statement, str):
-            raise TypeError('<SQLite>.execute requires a string statement.')
+            raise TypeError('<{}>.execute requires a string statement.'.format(self.__class__.__name__))
 
         self.cursor.execute(statement, *args)
 
