@@ -118,6 +118,14 @@ class SQLite:
             return None
         return fetched_data[0]
 
+    def get_total_level(self, player):
+        self.execute("SELECT SUM(Level) FROM Heroes WHERE SteamID='{}'".format(
+            player.uniqueid))
+        fetched_data = self.cursor.fetchone()
+        if fetched_data is None:
+            return None
+        return fetched_data[0]
+
     '''
 
     Save data to tables from <Player>,
