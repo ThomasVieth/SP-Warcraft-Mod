@@ -58,14 +58,8 @@ class SQLite:
             Level INTEGER
         )''')
 
-    '''
-
-    Adding rows to the database, for
-    players, and heroes. Heroes must be
-    supplied as a <class> and not an
-    <object> when adding data.
-
-    '''
+    # Adding rows to the database, for
+    # players, and heroes.
 
     def add_player(self, player):
         self.execute("INSERT INTO Players (SteamID, Hero, Name) VALUES ('{}', '{}', '{}')".format(
@@ -82,12 +76,10 @@ class SQLite:
         self.execute("INSERT INTO Skills (SteamID, Hero, Name, Level) VALUES ('{}', '{}', '{}', {})".format(
             player.uniqueid, hero.__class__.__name__, skill.__class__.__name__, 0))
 
-    '''
 
-    Retrievable data from tables, please
-    supply <object>s to these methods.
+    # Retrievable data from tables, please
+    # supply <Player>s to these methods.
 
-    '''
 
     def get_player_hero(self, player):
         self.execute("SELECT Hero FROM Players WHERE SteamID='{}'".format(
@@ -126,12 +118,10 @@ class SQLite:
             return None
         return fetched_data[0]
 
-    '''
 
-    Save data to tables from <Player>,
-    <Hero> or <Skill> instances.
+    # Save data to tables from <Player>,
+    # <Hero> or <Skill> instances.
 
-    '''
 
     def set_player_hero(self, player):
         self.execute("UPDATE Players SET Hero='{}' WHERE SteamID='{}'".format(
