@@ -48,16 +48,14 @@ class SQLite:
             SteamID VARCHAR(32),
             Name VARCHAR(32),
             Experience INTEGER,
-            Level INTEGER,
-            PRIMARY KEY (SteamID, Name)
+            Level INTEGER
         )''')
 
         self.execute('''CREATE TABLE IF NOT EXISTS Skills (
             SteamID VARCHAR(32),
             Hero VARCHAR(32),
             Name VARCHAR(32),
-            Level INTEGER,
-            PRIMARY KEY (SteamID, Hero, Name)
+            Level INTEGER
         )''')
 
     '''
