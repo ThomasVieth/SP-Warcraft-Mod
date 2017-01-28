@@ -18,6 +18,10 @@ from .strings import *
 @SayCommand(['heroinfo', 'showxp'])
 def _show_xp_say_command(command, index, team_only=None):
     player = players[userid_from_index(index)]
+    show_experience.send(index, hero=player.hero.name, level=player.hero.level,
+        experience=player.hero.experience,
+        needed=player.hero.required_experience(player.hero.level))
+    return CommandReturn.BLOCK
 
 @SayCommand('spendskills')
 def _spend_skills_say_command(command, index, team_only=None):
