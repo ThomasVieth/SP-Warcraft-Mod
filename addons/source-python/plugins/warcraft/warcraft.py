@@ -8,6 +8,7 @@ from players.helpers import userid_from_index
 from .calls import *
 from .experience import *
 from .heroes import *
+from .info import *
 from .menus import *
 from .players import *
 from .skills import *
