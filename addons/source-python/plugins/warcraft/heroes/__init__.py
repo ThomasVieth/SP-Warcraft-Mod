@@ -72,13 +72,9 @@ class Hero:
     def events(self):
         return self._events
 
-    '''
-
-    Management of current hero,
-    experience and levels. Added access
-    to give and take levels/experience.
-
-    '''
+    # Management of current hero,
+    # experience and levels. Added access
+    # to give and take levels/experience.
 
     @property
     def experience(self):
@@ -132,12 +128,8 @@ class Hero:
 
         self._level -= amount
 
-    '''
-
-    Methods used for external calling of
-    skill methods.
-
-    '''
+    # Methods used for external calling of
+    # skill methods.
 
     def call_events(self, event_name, *args, **kwargs):
         if not event_name in self._events:
@@ -151,12 +143,8 @@ class Hero:
         for method in self._clientcommands[clientcommand]:
             method(*args, **kwargs)
 
-    '''
-
-    Decorators for embedding skills into
-    heroes.
-
-    '''
+    # Decorators for embedding skills into
+    # heroes.
 
     @classmethod
     def skill(cls, skill):
@@ -167,12 +155,8 @@ class Hero:
 
         return skill
 
-    '''
-
-    Form dictionaries of all subclassed
-    heroes.
-
-    '''
+    # Form dictionaries of all subclassed
+    # heroes.
 
     @classmethod
     def get_subclasses(cls):
