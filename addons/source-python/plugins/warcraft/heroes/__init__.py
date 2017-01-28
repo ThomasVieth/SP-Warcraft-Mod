@@ -140,10 +140,14 @@ class Hero:
     '''
 
     def call_events(self, event_name, *args, **kwargs):
+        if not event_name in self._events:
+            return
         for method in self._events[event_name]:
             method(*args, **kwargs)
 
     def call_clientcommands(self, clientcommand, *args, **kwargs):
+        if not clientcommand in self._clientcommands:
+            return
         for method in self._clientcommands[clientcommand]:
             method(*args, **kwargs)
 
