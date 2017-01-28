@@ -1,5 +1,6 @@
 ## IMPORTS
 
+from commands.client import ClientCommandFilter
 from entities import TakeDamageInfo
 from entities.hooks import EntityCondition
 from entities.hooks import EntityPreHook
@@ -121,3 +122,10 @@ def _post_run_command_call_events(stack_data, return_value):
     usercmd = make_object(UserCmd, stack_data[1])
 
     player.hero.call_events('player_post_run_command', player=player, usercmd=usercmd)
+
+@ClientCommandFilter
+def _filter_commands_call_events(command, index):
+    player = players[userid_from_index(index)]
+    command_name = command[0]
+
+    player.hero.call_clientcommands(command_name, player=player, command=command)
