@@ -5,9 +5,16 @@ from entities.hooks import EntityCondition
 from entities.hooks import EntityPreHook
 from events import Event
 from memory import make_object
+from players.helpers import userid_from_index
 from players.helpers import userid_from_pointer
 
 from .players import players
+
+## ALL DECLARATION
+
+__all__ = (
+    '_pre_damage_call_events',
+    )
 
 ## CALL EVENTS
 

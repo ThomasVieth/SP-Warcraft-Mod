@@ -1,8 +1,15 @@
 ## IMPORTS
 
+from events import Event
+
 from .config import WARCRAFT_KILL_EXPERIENCE
 from .config import WARCRAFT_ASSIST_EXPERIENCE
 from .players import players
+from .strings import give_experience
+
+## ALL DECLARATION
+
+__all__ = tuple()
 
 ## EXPERIENCE GAIN
 
