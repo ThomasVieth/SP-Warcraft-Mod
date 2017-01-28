@@ -88,12 +88,12 @@ def _on_hurt_call_events(event_data):
         victim=victim)
 
 @EntityPreHook(EntityCondition.is_player, 'on_take_damage')
-def _pre_damage_call_events(args):
-    take_damage_info = make_object(TakeDamageInfo, args[1])
+def _pre_damage_call_events(stack_data):
+    take_damage_info = make_object(TakeDamageInfo, stack_data[1])
     if not take_damage_info.attacker:
         return
     attacker = players[userid_from_index(take_damage_info.attacker)]
-    victim = players[userid_from_pointer(args[0])]
+    victim = players[userid_from_pointer(stack_data[0])]
 
     event_args = {
         'attacker': attacker,
@@ -112,14 +112,14 @@ def _pre_damage_call_events(args):
 
 @EntityPreHook(EntityCondition.is_human_player, 'run_command')
 def _pre_run_command_call_events(stack_data):
-    player = players[userid_from_pointer(args[0])]
+    player = players[userid_from_pointer(stack_data[0])]
     usercmd = make_object(UserCmd, stack_data[1])
 
     player.hero.call_events('player_pre_run_command', player=player, usercmd=usercmd)
 
 @EntityPostHook(EntityCondition.is_human_player, 'run_command')
 def _post_run_command_call_events(stack_data, return_value):
-    player = players[userid_from_pointer(args[0])]
+    player = players[userid_from_pointer(stack_data[0])]
     usercmd = make_object(UserCmd, stack_data[1])
 
     player.hero.call_events('player_post_run_command', player=player, usercmd=usercmd)
