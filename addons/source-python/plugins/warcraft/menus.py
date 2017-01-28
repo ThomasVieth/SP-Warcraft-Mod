@@ -7,6 +7,7 @@ from menus import PagedMenu
 from menus import PagedOption
 from menus import Text
 
+from .database import load_hero_data
 from .heroes import Hero
 from .players import players
 from .strings import strings
