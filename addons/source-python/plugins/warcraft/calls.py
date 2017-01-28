@@ -5,6 +5,7 @@ from entities.hooks import EntityCondition
 from entities.hooks import EntityPreHook
 from events import Event
 from memory import make_object
+from players import UserCmd
 from players.helpers import userid_from_index
 from players.helpers import userid_from_pointer
 
@@ -106,3 +107,17 @@ def _pre_damage_call_events(args):
 
     attacker.hero.call_events('player_pre_attack', player=attacker, **event_args)
     victim.hero.call_events('player_pre_victim', player=victim, **event_args)
+
+@EntityPreHook(EntityCondition.is_human_player, 'run_command')
+def _pre_run_command_call_events(stack_data):
+    player = players[userid_from_pointer(args[0])]
+    usercmd = make_object(UserCmd, stack_data[1])
+
+    player.hero.call_events('player_pre_run_command', player=player, usercmd=usercmd)
+
+@EntityPostHook(EntityCondition.is_human_player, 'run_command')
+def _post_run_command_call_events(stack_data, return_value):
+    player = players[userid_from_pointer(args[0])]
+    usercmd = make_object(UserCmd, stack_data[1])
+
+    player.hero.call_events('player_post_run_command', player=player, usercmd=usercmd)
