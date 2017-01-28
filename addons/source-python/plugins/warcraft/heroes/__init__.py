@@ -23,7 +23,7 @@ __all__ += heroes
 
 class Hero:
 
-    _skills = list()
+    _skills = tuple()
 
     requirement = 'None'
 
@@ -148,7 +148,7 @@ class Hero:
 
     @classmethod
     def skill(cls, skill):
-        cls._skills.append(skill)
+        cls._skills += (skill, )
 
         log(2, 'Embedded skill {} into {}.'.format(skill.__name__,
             cls.__name__))
