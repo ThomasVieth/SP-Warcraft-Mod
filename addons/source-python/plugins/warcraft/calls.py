@@ -18,6 +18,13 @@ __all__ = (
 
 ## CALL EVENTS
 
+@Event('round_end', 'round_start')
+def _on_round_call_events(event_data):
+    kwargs = event_data.variables.as_dict()
+
+    for player in players:
+        player.hero.call_events(event_data.name, player=player, **kwargs)
+
 @Event('player_death')
 def _on_kill_assist_call_events(event_data):
     if event_data['userid'] == event_data['attacker'] or event_data['attacker'] == 0:
@@ -39,11 +46,23 @@ def _on_kill_assist_call_events(event_data):
         assister.hero.call_events('player_assist', player=assister, attacker=attacker,
             victim=victim)
 
-@Event('player_spawn')
-def _on_spawn_call_events(event_data):
+@Event('bomb_dropped', 'bomb_exploded', 'bomb_pickup',
+    'bomb_planted', 'bomb_defused', 'bomb_beginplant', 'bomb_begindefuse',
+    'bomb_abortplant', 'bomb_abortdefuse', 'bot_takeover', 'break_breakable',
+    'break_prop', 'bullet_impact', 'buymenu_close', 'buymenu_open', 'decoy_detonate',
+    'decoy_started', 'decoy_firing', 'defuser_pickup', 'door_moving', 'enter_bombzone',
+    'enter_buyzone', 'enter_rescue_zone', 'exit_bombzone', 'exit_buyzone',
+    'exit_rescue_zone', 'flashbang_detonate', 'grenade_bounce', 'hegrenade_detonate',
+    'hostage_follows', 'hostage_hurt', 'hostage_killed', 'hostage_rescued',
+    'hostage_stops_following', 'item_purchase', 'player_blind', 'player_spawn',
+    'player_jump', 'player_changename', 'player_footstep', 'player_shoot', 'player_use',
+    'round_mvp', 'silencer_on', 'silencer_off', 'weapon_fire', 'weapon_fire_on_empty',
+    'weapon_reload', 'weapon_zoom')
+def _on_personal_call_events(event_data):
     player = players[event_data['userid']]
+    kwargs = event_data.variables.as_dict()
 
-    player.hero.call_events('player_spawn', player=player)
+    player.hero.call_events(event_data.name, player=player, **kwargs)
 
 @Event('player_hurt')
 def _on_hurt_call_events(event_data):
