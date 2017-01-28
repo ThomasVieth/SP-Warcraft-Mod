@@ -24,7 +24,7 @@ __all__ = (
 def _on_round_call_events(event_data):
     kwargs = event_data.variables.as_dict()
 
-    for player in players:
+    for player in players.values():
         player.hero.call_events(event_data.name, player=player, **kwargs)
 
 @Event('player_death')
