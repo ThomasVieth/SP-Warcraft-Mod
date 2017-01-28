@@ -4,6 +4,7 @@ from commands.client import ClientCommandFilter
 from entities import TakeDamageInfo
 from entities.hooks import EntityCondition
 from entities.hooks import EntityPreHook
+from entities.hooks import EntityPostHook
 from events import Event
 from memory import make_object
 from players import UserCmd
