@@ -3,6 +3,7 @@
 from ..heroes.undead import Undead
 from . import Skill
 from . import events
+from . import clientcommands
 
 from random import randint
 
@@ -12,8 +13,12 @@ class Unholy(Skill):
     max_level = 8
 
     @events('player_spawn')
-    def _on_spawn(self, player):
+    def _on_spawn(self, player, **kwargs):
         player.speed += 0.06 * self.level
+
+    @clientcommands('speed')
+    def _on_command(self, player, command, **kwargs):
+        player.speed += 0.1
 
 @Undead.skill
 class Levitation(Skill):
@@ -21,7 +26,7 @@ class Levitation(Skill):
     max_level = 8
 
     @events('player_spawn')
-    def _on_spawn(self, player):
+    def _on_spawn(self, player, **kwargs):
         player.gravity = 1 - (0.08 * self.level)
 
     @events('player_death')
