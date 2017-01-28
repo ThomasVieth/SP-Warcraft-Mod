@@ -67,8 +67,12 @@ def _on_change_hero_build(menu, index):
     menu.clear()
     menu.description = strings['change_hero']
     for hero in Hero.get_subclasses():
-        menu.append(PagedOption(strings['hero'].get_string(hero=hero.name,
-            requirement=hero.requirement), hero))
+        if not hero.meets_requirements(player):
+            menu.append(PagedOption(strings['hero'].get_string(hero=hero.name,
+                requirement=hero.requirement), hero, selectable=False))
+        else:
+            menu.append(PagedOption(strings['hero'].get_string(hero=hero.name,
+                requirement='Owned'), hero, selectable=True))
 
 def _on_change_hero_select(menu, index, choice):
     player = players[userid_from_index(index)]
