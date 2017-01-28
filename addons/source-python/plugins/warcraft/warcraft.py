@@ -6,7 +6,6 @@ from entities import TakeDamageInfo
 from entities.hooks import EntityCondition
 from entities.hooks import EntityPreHook
 from events import Event
-from players.entity import Player
 from players.helpers import userid_from_index
 from players.helpers import userid_from_pointer
 from memory import make_object
@@ -23,20 +22,11 @@ from .skills import *
 
 from .config import WARCRAFT_KILL_EXPERIENCE
 from .config import WARCRAFT_ASSIST_EXPERIENCE
-from .database import load_player_data
-from .database import load_hero_data
-from .database import save_player_data
-from .database import save_hero_data
-from .database import manager
+from .players import players
 
 ## GLOBALS
 
-players = dict()
 strings = LangStrings('warcraft')
-
-def unload():
-    manager.connection.commit()
-    manager.connection.close()
 
 ## MESSAGE DEFINITION
 
@@ -132,31 +122,14 @@ def _change_hero_say_command(command, index, team_only=None):
     main_menu.send(index)
     return CommandReturn.BLOCK
 
-## DATABASE MANAGMENT
+## MESSAGE SENDING
 
 @Event('player_spawn')
-def _on_spawn_message(event_data):
-    if not event_data['userid'] in players:
-        player = players[event_data['userid']] = Player.from_userid(event_data['userid'])
-        load_player_data(player)
-        load_hero_data(player)
-
+def _on_spawn_send_show_xp(event_data):
     player = players[event_data['userid']]
     show_experience.send(player.index, hero=player.hero.name, level=player.hero.level,
         experience=player.hero.experience,
         needed=player.hero.required_experience(player.hero.level))
-
-@Event('player_disconnect')
-def _on_disconnect_save_data(event_data):
-    player = players[event_data['userid']]
-    save_player_data(player)
-    save_hero_data(player)
-    del players[event_data['userid']]
-
-@Event('player_death')
-def _on_death_save_data(event_data):
-    player = players[event_data['userid']]
-    save_hero_data(player)
 
 ## EXPERIENCE GAIN
 
