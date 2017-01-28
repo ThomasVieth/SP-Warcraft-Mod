@@ -4,7 +4,6 @@ from commands.client import ClientCommandFilter
 from entities import TakeDamageInfo
 from entities.hooks import EntityCondition
 from entities.hooks import EntityPreHook
-from entities.hooks import EntityPostHook
 from events import Event
 from memory import make_object
 from players import UserCmd
@@ -116,13 +115,6 @@ def _pre_run_command_call_events(stack_data):
     usercmd = make_object(UserCmd, stack_data[1])
 
     player.hero.call_events('player_pre_run_command', player=player, usercmd=usercmd)
-
-@EntityPostHook(EntityCondition.is_human_player, 'run_command')
-def _post_run_command_call_events(stack_data, return_value):
-    player = players[userid_from_pointer(stack_data[0])]
-    usercmd = make_object(UserCmd, stack_data[1])
-
-    player.hero.call_events('player_post_run_command', player=player, usercmd=usercmd)
 
 @ClientCommandFilter
 def _filter_commands_call_events(command, index):
