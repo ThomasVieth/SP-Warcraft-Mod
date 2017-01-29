@@ -11,7 +11,6 @@ from .heroes import *
 from .info import *
 from .menus import *
 from .players import *
-from .skills import *
 from .strings import *
 
 ## SAY REGISTERS
