@@ -10,6 +10,7 @@ LOG_LOCATION = PLUGIN_PATH / 'warcraft' / 'debug.log'
 DATABASE_TYPE = 1 # Types = 1 (SQLite), 2 (MySQL), 3 (UNKOWN)
 SQLITE_LOCATION = PLUGIN_PATH / 'warcraft' / 'database' / 'players.sqlite'
 MYSQL_ADDRESS = '127.0.0.1'
+MYSQL_PORT = ''
 MYSQL_LOGIN = 'username'
 MYSQL_PASSWORD = 'password'
 MYSQL_DATABASE_NAME = 'warcraft'
