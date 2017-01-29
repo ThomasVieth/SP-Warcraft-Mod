@@ -2,7 +2,7 @@
 
 from time import time
 
-from ..debug import log
+from .debug import log
 
 ## ALL DECLARATION
 
