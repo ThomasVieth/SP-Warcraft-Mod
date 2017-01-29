@@ -4,6 +4,7 @@ from . import Hero
 from . import Skill
 from . import events
 from . import clientcommands
+from ..cooldown import Cooldown
 
 from random import randint
 
@@ -19,9 +20,15 @@ class Unholy(Skill):
     def _on_spawn(self, player, **kwargs):
         player.speed += 0.06 * self.level
 
+    @events('player_spawn')
+    def _reset_cooldowns(self, **kwargs):
+        self.cooldown = Cooldown(3)
+
     @clientcommands('speed')
     def _on_command(self, player, command, **kwargs):
-        player.speed += 0.1
+        if self.cooldown.is_over:
+            player.speed += 0.1
+            self.cooldown = Cooldown(20)
 
 @Undead.skill
 class Levitation(Skill):
