@@ -2,6 +2,7 @@
 
 from commands.client import ClientCommandFilter
 from entities import TakeDamageInfo
+from entities.entity import Entity
 from entities.hooks import EntityCondition
 from entities.hooks import EntityPreHook
 from events import Event
@@ -91,7 +92,8 @@ def _pre_damage_call_events(stack_data):
     take_damage_info = make_object(TakeDamageInfo, stack_data[1])
     if not take_damage_info.attacker:
         return
-    attacker = players[userid_from_index(take_damage_info.attacker)]
+    entity = Entity(take_damage_info.attacker)
+    attacker = players[entity.index] if entity.is_player() else None
     victim = players[userid_from_pointer(stack_data[0])]
 
     event_args = {
@@ -100,14 +102,15 @@ def _pre_damage_call_events(stack_data):
         'take_damage_info': take_damage_info,
     }
 
-    if victim.team == attacker.team:
-        attacker.hero.call_events('player_pre_teammate_attack', player=attacker,
-            **event_args)
-        victim.hero.call_events('player_pre_teammate_victim', player=victim, **event_args)
-        return
+    if attacker:
+        if victim.team == attacker.team:
+            attacker.hero.call_events('player_pre_teammate_attack', player=attacker,
+                **event_args)
+            victim.hero.call_events('player_pre_teammate_victim', player=victim, **event_args)
+            return
 
-    attacker.hero.call_events('player_pre_attack', player=attacker, **event_args)
-    victim.hero.call_events('player_pre_victim', player=victim, **event_args)
+        attacker.hero.call_events('player_pre_attack', player=attacker, **event_args)
+        victim.hero.call_events('player_pre_victim', player=victim, **event_args)
 
 @EntityPreHook(EntityCondition.is_human_player, 'run_command')
 def _pre_run_command_call_events(stack_data):
