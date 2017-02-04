@@ -5,6 +5,7 @@ from os.path import dirname, basename, isfile
 from glob import glob
 
 from ..debug import log
+from ..config import BASE_EXPERIENCE, ADDITION_EXPERIENCE
 
 ## ALL DECLARATION
 
