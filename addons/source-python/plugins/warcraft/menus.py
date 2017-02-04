@@ -123,9 +123,9 @@ class PlayerInfoMenu(ListMenu):
 #
 
 def _on_current_hero_build(menu, index):
-    player = players[userid_from_index(index)]
+    player = g_players[userid_from_index(index)]
     menu.clear()
-    menu.description = player.hero.hero_info
+    menu.description = 'Level : ' + player.hero.hero_info
     for skill in player.hero.skills:
         if skill.max_level == 0:
             menu.append(PagedOption(strings['passive'].get_string(name=skill.name, description=skill.description), skill))
@@ -133,7 +133,8 @@ def _on_current_hero_build(menu, index):
             menu.append(PagedOption(strings['skill_info'].get_string(name=skill.name,
             level=skill.level, max_level=skill.max_level, description=skill.description), skill))
 
-
+def _on_current_hero_select(menu, index):
+    return menu
 
 #
 #   CHANGEHERO
@@ -204,8 +205,8 @@ hero_info = PagedMenu(
 
 current_hero = PagedMenu(
     title=strings['current_hero'],
-    build_callback=_on_hero_info_build,
-    select_callback=_on_hero_info_select,
+    build_callback=_on_current_hero_build,
+    select_callback=_on_current_hero_select,
     parent_menu=main_menu,
 )
 
