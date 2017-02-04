@@ -127,7 +127,7 @@ class Hero:
         :returns bool:
             ``True`` if the entity is on its max level, else ``False``
         """
-        return sum(skill.level for skill in self.skills) 
+        return sum(skill.max_level for skill in self.skills) 
         
     def unused_points(self, level):
         return self._level - sum(skill.level for skill in self.skills)
