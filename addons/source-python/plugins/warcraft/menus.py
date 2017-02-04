@@ -123,7 +123,7 @@ class PlayerInfoMenu(ListMenu):
 #
 
 def _on_current_hero_build(menu, index):
-    player = g_players[userid_from_index(index)]
+    player = players[userid_from_index(index)]
     menu.clear()
     menu.description = 'Level : ' + player.hero.hero_info
     for skill in player.hero.skills:
@@ -148,9 +148,11 @@ def _on_change_hero_build(menu, index):
         if not hero.meets_requirements(player):
             menu.append(PagedOption(strings['hero'].get_string(hero=hero.name,
                 requirement=hero.requirement), hero, selectable=False))
-        else:
+        elif player.hero.name == hero.name:
             menu.append(PagedOption(strings['hero'].get_string(hero=hero.name,
-                requirement='Owned'), hero, selectable=True))
+                requirement='Current'), hero, selectable=True))
+        else:
+            menu.append(PagedOption(hero.name, hero, selectable=True))
 
 def _on_change_hero_select(menu, index, choice):
     player = players[userid_from_index(index)]
