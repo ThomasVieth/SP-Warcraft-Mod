@@ -92,11 +92,52 @@ class Hero:
     def level(self, amount):
         self._level = amount
 
+    @property
+    def hero_info(self):
+        """Get the hero level info as a string.
+
+        :returns sring:
+            Level info
+        """
+
+        if self.is_max_hero():
+            return '{hero.level} - MAX'.format(hero=self)
+        else:
+            return '{hero.level}/{hero.get_max_hero}'.format(hero=self)
+
+    @property
+    def is_max_hero(self):
+        """Check if an hero is on its maximum level.
+
+        :returns bool:
+            ``True`` if the entity is on its max level, else ``False``
+        """
+        all_level = 0
+        for skill in self.skills:
+            if skill.max_level is not None:
+                all_level += skill.max_level
+
+        return self.level >= all_level
+
+    @property
+    def get_max_hero(self):
+        """Check if an hero is on its maximum level.
+
+        :returns bool:
+            ``True`` if the entity is on its max level, else ``False``
+        """
+        all_level = 0
+        for skill in self.skills:
+            if skill.max_level is not None:
+                all_level += skill.max_level
+
+        return all_level  
+        
     def unused_points(self, level):
         return self._level - sum(skill.level for skill in self.skills)
 
     def required_experience(self, level):
-        return 80 + (40 * self._level)
+        return BASE_EXPERIENCE + (ADDITION_EXPERIENCE * self._level)
 
     def give_experience(self, amount):
         if not isinstance(amount, int):
