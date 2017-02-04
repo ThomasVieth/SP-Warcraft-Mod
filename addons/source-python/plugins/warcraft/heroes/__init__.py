@@ -101,7 +101,7 @@ class Hero:
             Level info
         """
 
-        if self.is_max_hero():
+        if self.is_max_hero:
             return '{hero.level} - MAX'.format(hero=self)
         else:
             return '{hero.level}/{hero.get_max_hero}'.format(hero=self)
