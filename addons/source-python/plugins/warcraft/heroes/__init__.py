@@ -26,6 +26,7 @@ class Hero:
 
     _skills = tuple()
 
+    max_level = 0
     requirement = 'None'
 
     '''
@@ -97,31 +98,31 @@ class Hero:
     def hero_info(self):
         """Get the hero level info as a string.
 
-        :returns sring:
+        :returns string:
             Level info
         """
 
-        if self.is_max_hero:
+        if self.is_max_level:
             return '{hero.level} - MAX'.format(hero=self)
         else:
             return '{hero.level}/{hero.get_max_hero}'.format(hero=self)
 
     @property
-    def is_max_hero(self):
+    def is_max_level(self):
+        return self.level >= self.max_level
+        
+    @property
+    def is_max_level_from_skills(self):
         """Check if an hero is on its maximum level.
 
         :returns bool:
             ``True`` if the entity is on its max level, else ``False``
         """
-        all_level = 0
-        for skill in self.skills:
-            if skill.max_level is not None:
-                all_level += skill.max_level
 
-        return self.level >= all_level
+        return self.level >= self.hero_max_level_from_skills
 
     @property
-    def get_max_hero(self):
+    def hero_max_level_from_skills(self):
         """Check if an hero is on its maximum level.
 
         :returns bool:
