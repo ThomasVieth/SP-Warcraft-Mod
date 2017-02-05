@@ -24,6 +24,15 @@ def unload():
     manager.connection.commit()
     manager.connection.close()
 
+## PLAYER MANAGMENT    
+  
+@Event('player_spawn')
+def _remove_restrict_on_spawn_message(event_data):
+    player = players[event_data['userid']]
+    if player.team in [2,3]:
+        all_weapons = set(weapon.name for weapon in WeaponClassIter())
+        player.unrestrict_weapons(*all_weapons)   
+    
 ## DATABASE MANAGMENT
 
 @Event('player_spawn')
@@ -34,8 +43,6 @@ def _on_spawn_message(event_data):
         load_hero_data(player)
 
     player = players[event_data['userid']]
-    all_weapons = set(weapon.name for weapon in WeaponClassIter())
-    player.unrestrict_weapons(*all_weapons)
 
 @Event('player_disconnect')
 def _on_disconnect_save_data(event_data):
