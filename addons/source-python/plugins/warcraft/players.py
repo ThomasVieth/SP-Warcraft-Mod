@@ -2,6 +2,7 @@
 
 from events import Event
 from players.entity import Player
+from filters.weapons import WeaponClassIter
 
 from .database import load_player_data
 from .database import load_hero_data
