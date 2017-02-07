@@ -14,6 +14,7 @@ __all__ = (
     'load_hero_data',
     'save_player_data',
     'save_hero_data',
+    'get_player_level',
     )
 
 ## DATABASE CHOICE
@@ -42,7 +43,9 @@ def load_hero_data(player):
         manager.add_hero(player, player.hero)
         data = (0, 0)
     player.hero.experience, player.hero.level = data
+    player.hero.owner = player
     for skill in player.hero.skills:
+        skill.owner = player.hero
         level = manager.get_player_skill_level(player, player.hero, skill)
         if not level:
             level = 0
