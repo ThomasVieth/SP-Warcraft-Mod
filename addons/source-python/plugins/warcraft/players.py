@@ -2,6 +2,7 @@
 
 from events import Event
 from players.entity import Player
+from filters.weapons import WeaponClassIter
 
 from .database import load_player_data
 from .database import load_hero_data
@@ -18,11 +19,20 @@ __all__ = (
 ## GLOBALS
 
 players = dict()
+all_weapons = set(weapon.name for weapon in WeaponClassIter())
 
 def unload():
     manager.connection.commit()
     manager.connection.close()
 
+## PLAYER MANAGMENT    
+  
+@Event('player_spawn')
+def _remove_restrict_on_spawn_message(event_data):
+    player = players[event_data['userid']]
+    if player.team in [2,3]:
+        player.unrestrict_weapons(*all_weapons)   
+    
 ## DATABASE MANAGMENT
 
 @Event('player_spawn')
