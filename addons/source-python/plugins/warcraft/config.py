@@ -21,6 +21,7 @@ MYSQL_DATABASE_NAME = 'warcraft'
 
 WARCRAFT_DEFAULT_HERO = 'Undead'
 
+# All required experience will be calculated by <BASE> + (<LEVEL BONUS> * <CURRENT LEVEL>)
 WARCRAFT_BASE_EXPERIENCE = 100
 WARCRAFT_LEVEL_BONUS_EXPERIENCE = 40
 
