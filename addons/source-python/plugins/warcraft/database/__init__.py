@@ -62,5 +62,5 @@ def save_hero_data(player):
         
 ## GET DATA IN DATABASE
 
-def get_player_level(player):
+def get_player_total_level(player):
     return manager.get_total_level(player)
