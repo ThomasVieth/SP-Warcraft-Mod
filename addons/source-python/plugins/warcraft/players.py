@@ -21,7 +21,7 @@ __all__ = (
 players = dict()
 all_weapons = set(weapon.name for weapon in WeaponClassIter())
 
-def unload():
+def unload_database():
     manager.connection.commit()
     manager.connection.close()
 

@@ -13,6 +13,11 @@ from .menus import *
 from .players import *
 from .strings import *
 
+## UNLOAD PLAYERS
+
+def unload():
+    unload_database()
+
 ## SAY REGISTERS
 
 @SayCommand(['heroinfo', 'showxp'])
