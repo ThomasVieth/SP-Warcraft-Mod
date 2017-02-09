@@ -5,6 +5,7 @@ from os.path import dirname, basename, isfile
 from glob import glob
 
 from ..debug import log
+from ..config import BASE_EXPERIENCE, ADDITION_EXPERIENCE
 
 ## ALL DECLARATION
 
@@ -25,6 +26,7 @@ class Hero:
 
     _skills = tuple()
 
+    max_level = 0
     requirement = 'None'
 
     '''
@@ -92,11 +94,47 @@ class Hero:
     def level(self, amount):
         self._level = amount
 
+    @property
+    def hero_info(self):
+        """Get the hero level info as a string.
+
+        :returns string:
+            Level info
+        """
+
+        if self.is_max_level:
+            return '{hero.level} - MAX'.format(hero=self)
+        else:
+            return '{hero.level}/{hero.get_max_hero}'.format(hero=self)
+
+    @property
+    def is_max_level(self):
+        return self.level >= self.max_level
+        
+    @property
+    def is_max_level_from_skills(self):
+        """Check if an hero is on its maximum level.
+
+        :returns bool:
+            ``True`` if the entity is on its max level, else ``False``
+        """
+
+        return self.level >= self.hero_max_level_from_skills
+
+    @property
+    def hero_max_level_from_skills(self):
+        """Check if an hero is on its maximum level.
+
+        :returns bool:
+            ``True`` if the entity is on its max level, else ``False``
+        """
+        return sum(skill.max_level for skill in self.skills) 
+        
     def unused_points(self, level):
         return self._level - sum(skill.level for skill in self.skills)
 
     def required_experience(self, level):
-        return 80 + (40 * self._level)
+        return BASE_EXPERIENCE + (ADDITION_EXPERIENCE * self._level)
 
     def give_experience(self, amount):
         if not isinstance(amount, int):
