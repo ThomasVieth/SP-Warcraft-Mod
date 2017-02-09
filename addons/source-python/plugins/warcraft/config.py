@@ -2,10 +2,12 @@
 
 from paths import PLUGIN_PATH
 
-## CONFIGURATION
+## LOG CONFIGURATION
 
 LOG_PRIORITY = 0
 LOG_LOCATION = PLUGIN_PATH / 'warcraft' / 'debug.log'
+
+## DATABASE CONFIGURATION
 
 DATABASE_TYPE = 1 # Types = 1 (SQLite), 2 (MySQL), 3 (UNKOWN)
 SQLITE_LOCATION = PLUGIN_PATH / 'warcraft' / 'database' / 'players.sqlite'
@@ -14,6 +16,8 @@ MYSQL_PORT = ''
 MYSQL_LOGIN = 'username'
 MYSQL_PASSWORD = 'password'
 MYSQL_DATABASE_NAME = 'warcraft'
+
+## WARCRAFT HERO CONFIGURATION
 
 WARCRAFT_DEFAULT_HERO = 'Undead'
 
