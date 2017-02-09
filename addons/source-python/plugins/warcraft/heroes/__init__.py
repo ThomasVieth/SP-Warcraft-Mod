@@ -4,6 +4,7 @@ from collections import defaultdict
 from os.path import dirname, basename, isfile
 from glob import glob
 
+from ..config import WARCRAFT_BASE_EXPERIENCE, WARCRAFT_LEVEL_BONUS_EXPERIENCE
 from ..debug import log
 
 ## ALL DECLARATION
@@ -96,7 +97,7 @@ class Hero:
         return self._level - sum(skill.level for skill in self.skills)
 
     def required_experience(self, level):
-        return 80 + (40 * self._level)
+        return WARCRAFT_BASE_EXPERIENCE + (WARCRAFT_LEVEL_BONUS_EXPERIENCE * self._level)
 
     def give_experience(self, amount):
         if not isinstance(amount, int):
