@@ -14,7 +14,7 @@ __all__ = (
     'load_hero_data',
     'save_player_data',
     'save_hero_data',
-    'get_player_level',
+    'get_player_total_level',
     )
 
 ## DATABASE CHOICE
@@ -59,8 +59,6 @@ def save_hero_data(player):
     manager.set_player_hero_data(player, player.hero)
     for skill in player.hero.skills:
         manager.set_player_skill_level(player, player.hero, skill)
-        
-## GET DATA IN DATABASE
 
 def get_player_total_level(player):
     return manager.get_total_level(player)
