@@ -93,7 +93,7 @@ def _pre_damage_call_events(stack_data):
     if not take_damage_info.attacker:
         return
     entity = Entity(take_damage_info.attacker)
-    attacker = players[entity.index] if entity.is_player() else None
+    attacker = players[userid_from_index(entity.index)] if entity.is_player() else None
     victim = players[userid_from_pointer(stack_data[0])]
 
     event_args = {
