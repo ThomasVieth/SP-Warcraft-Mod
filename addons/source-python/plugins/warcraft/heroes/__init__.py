@@ -129,6 +129,16 @@ class Hero:
 
         self._level -= amount
 
+    # Properties for checking maximum levels.
+
+    @property
+    def max_level(self):
+        return sum(skill.max_level for skill in self.skills)
+
+    @property
+    def is_max_level(self):
+        return self._level >= self.max_level
+
     # Methods used for external calling of
     # skill methods.
 
