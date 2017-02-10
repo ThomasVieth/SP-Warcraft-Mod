@@ -26,5 +26,5 @@ class Cooldown:
 
     @property
     def remaining(self):
-        r = time() - self._end_time
+        r = self._end_time - time()
         return r if r > 0 else 0
