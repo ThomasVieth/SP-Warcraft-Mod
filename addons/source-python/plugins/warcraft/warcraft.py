@@ -75,4 +75,4 @@ def _on_level_change(hero):
 
     entity.turn_on()
     entity.set_parent(player.pointer, -1)
-    Delay(0.5, entity.turn_off)
+    entity.delay(0.5, entity.turn_off)
