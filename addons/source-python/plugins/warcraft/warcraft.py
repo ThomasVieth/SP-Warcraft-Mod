@@ -6,7 +6,6 @@ from engines.precache import Model
 from entities.entity import Entity
 from entities.helpers import index_from_pointer
 from events import Event
-from listeners.tick import Delay
 from players.helpers import userid_from_index
 
 from .calls import *
