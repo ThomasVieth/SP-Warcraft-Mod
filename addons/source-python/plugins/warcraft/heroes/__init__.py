@@ -6,6 +6,7 @@ from glob import glob
 
 from ..config import WARCRAFT_BASE_EXPERIENCE, WARCRAFT_LEVEL_BONUS_EXPERIENCE
 from ..debug import log
+from ..listeners import HeroLevelChange
 
 ## ALL DECLARATION
 
@@ -92,6 +93,7 @@ class Hero:
     @level.setter
     def level(self, amount):
         self._level = amount
+        HeroLevelChange.manager.notify(hero=self)
 
     def unused_points(self, level):
         return self._level - sum(skill.level for skill in self.skills)
@@ -106,7 +108,7 @@ class Hero:
         self._experience += amount
         while self._experience >= self.required_experience(self._level):
             self._experience -= self.required_experience(self._level)
-            self._level += 1
+            self.level += 1
 
     def take_experience(self, amount):
         if not isinstance(amount, int):
@@ -114,20 +116,20 @@ class Hero:
 
         self._experience -= amount
         while self._experience < 0:
-            self._level -= 1
+            self.level -= 1
             self._experience += self.required_experience(self._level)
 
     def give_levels(self, amount):
         if not isinstance(amount, int):
             raise TypeError('<Hero>.give_levels will only take integer values.')
 
-        self._level += amount
+        self.level += amount
 
     def take_levels(self, amount):
         if not isinstance(amount, int):
             raise TypeError('<Hero>.take_levels will only take integer values.')
 
-        self._level -= amount
+        self.level -= amount
 
     # Properties for checking maximum levels.
 
