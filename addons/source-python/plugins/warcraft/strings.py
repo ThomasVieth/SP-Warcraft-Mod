@@ -1,7 +1,8 @@
 ## IMPORTS
 
-from messages import SayText2
 from translations.strings import LangStrings
+
+from .config import MESSAGE_TYPE
 
 ## ALL DECLARATION
 
@@ -18,6 +19,6 @@ strings = LangStrings('warcraft')
 
 ## MESSAGE DEFINITION
 
-show_experience = SayText2(message=strings['show_experience'])
-give_experience = SayText2(message=strings['give_experience'])
-take_experience = SayText2(message=strings['take_experience'])
+show_experience = MESSAGE_TYPE(message=strings['show_experience'])
+give_experience = MESSAGE_TYPE(message=strings['give_experience'])
+take_experience = MESSAGE_TYPE(message=strings['take_experience'])
