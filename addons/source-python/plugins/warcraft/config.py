@@ -1,5 +1,6 @@
 ## IMPORTS
 
+from messages import SayText2
 from paths import PLUGIN_PATH
 
 ## LOG CONFIGURATION
@@ -16,6 +17,10 @@ MYSQL_PORT = ''
 MYSQL_LOGIN = 'username'
 MYSQL_PASSWORD = 'password'
 MYSQL_DATABASE_NAME = 'warcraft'
+
+## NOTIFICATION CONFIGURATION
+
+MESSAGE_TYPE = SayText2
 
 ## WARCRAFT HERO CONFIGURATION
 
