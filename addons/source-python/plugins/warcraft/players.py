@@ -14,6 +14,7 @@ from .database import manager
 
 __all__ = (
     'players',
+    'unload_database',
     )
 
 ## GLOBALS
