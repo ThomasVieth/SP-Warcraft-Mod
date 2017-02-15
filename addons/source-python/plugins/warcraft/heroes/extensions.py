@@ -35,12 +35,15 @@ class GravitySkill(Skill):
 
 	@property
 	def percentage(self):
+		'The percentage of gravity that will still affect the player.'
 		return 1 - (0.08 * self.level)
 
 	@events('player_spawn')
 	def _on_spawn_set_gravity(self, player, **kwargs):
+		'Called upon the player spawning.'
 		player.gravity = self.percentage
 
 	@events('player_death')
 	def _on_death_reset_gravity(self, player, **kwargs):
+		'Called upon the player dying.'
 		player.gravity = 1.0
