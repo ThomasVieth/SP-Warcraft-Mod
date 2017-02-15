@@ -2,6 +2,7 @@
 
 from events import Event
 from players.entity import Player
+from filters.players import PlayerIter
 from filters.weapons import WeaponClassIter
 
 from .database import load_player_data
@@ -21,6 +22,11 @@ __all__ = (
 
 players = dict()
 all_weapons = set(weapon.name for weapon in WeaponClassIter())
+
+for player in PlayerIter():
+    load_player_data(player)
+    load_hero_data(player)
+    players[player.userid] = player
 
 def unload_database():
     manager.connection.commit()
