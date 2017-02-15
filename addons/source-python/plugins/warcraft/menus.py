@@ -71,7 +71,7 @@ def _on_rank_build(menu, index):
         menu.append(PagedOption('{} - {}'.format(num+1, name), player_data))
     
 def _on_rank_select(menu, index, choice):
-  	steamid, hero, name, total = choice.value
+    steamid, hero, name, total = choice.value
     player_rank = ListMenu(title=name, description='Total Level: {}'.format(total))
     player_rank.append(ListOption('Current Hero: {}'.format(hero)))
     return player_rank
