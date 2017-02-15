@@ -117,7 +117,20 @@ class SQLite:
         if fetched_data is None:
             return None
         return fetched_data[0]
-
+    
+    def get_rank_list(self):
+        self.execute("""SELECT P.*, SUM(H.Level) as total_level
+            FROM Players P, Heroes H
+            WHERE P.SteamID = H.SteamID
+            AND P.SteamID NOT LIKE 'BOT%'
+            GROUP BY P.SteamID
+            ORDER BY total_level DESC
+        """)
+        fetched_data = self.cursor.fetchall()
+        if fetched_data is None:
+            return None
+        return fetched_data
+    
 
     # Save data to tables from <Player>,
     # <Hero> or <Skill> instances.
