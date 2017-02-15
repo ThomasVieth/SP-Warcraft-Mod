@@ -29,3 +29,18 @@ class LifestealSkill(Skill):
 
         health_to_leech = round(take_damage_info.damage * (self.percentage/100))
         player.health += health_to_leech
+
+class GravitySkill(Skill):
+	max_level = 8
+
+	@property
+	def percentage(self):
+		return 1 - (0.08 * self.level)
+
+	@events('player_spawn')
+	def _on_spawn_set_gravity(self, player, **kwargs):
+		player.gravity = self.percentage
+
+	@events('player_death')
+	def _on_death_reset_gravity(self, player, **kwargs):
+		player.gravity = 1.0
