@@ -55,7 +55,16 @@ def _on_spawn_send_show_xp(event_data):
     show_experience.send(player.index, hero=player.hero.name, level=player.hero.level,
         experience=player.hero.experience,
         needed=player.hero.required_experience(player.hero.level))
-    
+
+## CHECK HERO REQUIREMENT
+
+@Event('player_spawn')
+def _on_spawn_check_hero_requirement(event_data):
+    player = players[event_data['userid']]
+    if not player.hero.meets_requirements(player):
+        player.team = 1
+        change_hero.send(player.index)
+         
 ## LEVEL UP
 
 @HeroLevelChange
