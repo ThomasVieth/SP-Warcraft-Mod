@@ -66,7 +66,7 @@ def _on_rank_build(menu, index):
     ranks = list(get_rank_list())
     length = len(ranks)
     for num in range(0, length):
-      	player_data = ranks[num]
+          player_data = ranks[num]
         name = player_data[2]
         menu.append(PagedOption('{} - {}'.format(num+1, name), player_data))
     
