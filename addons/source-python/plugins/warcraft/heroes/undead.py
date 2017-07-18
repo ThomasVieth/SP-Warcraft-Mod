@@ -1,38 +1,23 @@
 ## TEST HERO
 
 from . import Hero
-from . import Skill
-from . import events
-from . import clientcommands
-from .extensions import LifestealSkill, GravitySkill
-from ..cooldown import Cooldown
+from .extensions import attackLifesteal, spawnGravity, spawnSpeed
 
 class Undead(Hero):
     name = 'Undead Scourge'
 
 @Undead.skill
-class Unholy(Skill):
+class Unholy(spawnSpeed):
     name = 'Unholy Aura'
-    max_level = 8
 
-    @events('player_spawn')
-    def _on_spawn(self, player, **kwargs):
-        player.speed += 0.06 * self.level
-
-    @events('player_spawn')
-    def _reset_cooldowns(self, **kwargs):
-        self.cooldown = Cooldown(3)
-
-    @clientcommands('speed')
-    def _on_command(self, player, command, **kwargs):
-        if self.cooldown.is_over:
-            player.speed += 0.1
-            self.cooldown = Cooldown(20)
+    @property
+    def addition(self):
+        return 0.2 + (self.level * 0.05)
 
 @Undead.skill
-class Levitation(GravitySkill):
+class Levitation(spawnGravity):
     name = 'Levitation'
 
 @Undead.skill
-class Vampiric(LifestealSkill):
+class Vampiric(attackLifesteal):
     name = 'Vampiric Aura'
