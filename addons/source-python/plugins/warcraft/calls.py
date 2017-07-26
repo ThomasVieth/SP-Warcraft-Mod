@@ -3,6 +3,7 @@
 from commands.client import ClientCommandFilter
 from entities import TakeDamageInfo
 from entities.entity import Entity
+from entities.helpers import index_from_pointer
 from entities.hooks import EntityCondition
 from entities.hooks import EntityPreHook
 from events import Event
