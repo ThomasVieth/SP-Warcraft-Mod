@@ -26,7 +26,7 @@ def unload():
 
 @SayCommand(['heroinfo', 'showxp'])
 def _show_xp_say_command(command, index, team_only=None):
-    player = players[userid_from_index(index)]
+    player = players[index]
     show_experience.send(index, hero=player.hero.name, level=player.hero.level,
         experience=player.hero.experience,
         needed=player.hero.required_experience(player.hero.level))
@@ -51,7 +51,8 @@ def _change_hero_say_command(command, index, team_only=None):
 
 @Event('player_spawn')
 def _on_spawn_send_show_xp(event_data):
-    player = players[event_data['userid']]
+    player = players.from_userid(event_data['userid'])
+
     show_experience.send(player.index, hero=player.hero.name, level=player.hero.level,
         experience=player.hero.experience,
         needed=player.hero.required_experience(player.hero.level))
@@ -60,7 +61,7 @@ def _on_spawn_send_show_xp(event_data):
 
 @Event('player_spawn')
 def _on_spawn_check_hero_requirement(event_data):
-    player = players[event_data['userid']]
+    player = players.from_userid(event_data['userid'])
     if not player.hero.meets_requirements(player):
         player.team = 1
         change_hero.send(player.index)

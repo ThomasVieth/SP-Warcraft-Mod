@@ -8,7 +8,7 @@ from entities.hooks import EntityPreHook
 from events import Event
 from memory import make_object
 from players import UserCmd
-from players.helpers import userid_from_index
+from entities.helpers import index_from_pointer
 from players.helpers import userid_from_pointer
 
 from .players import players
@@ -31,15 +31,15 @@ def _on_round_call_events(event_data):
 @Event('player_death')
 def _on_kill_assist_call_events(event_data):
     if event_data['userid'] == event_data['attacker'] or event_data['attacker'] == 0:
-        player = players[event_data['userid']]
+        player = players.from_userid(event_data['userid'])
         player.hero.call_events('player_suicide', player=player)
         return
 
-    attacker = players[event_data['attacker']]
-    victim = players[event_data['userid']]
+    attacker = players.from_userid(event_data['attacker'])
+    victim = players.from_userid(event_data['userid'])
     assister = None
     if event_data['assister']:
-        assister = players[event_data['assister']]
+        assister = players.from_userid(event_data['assister'])
 
     attacker.hero.call_events('player_kill', player=attacker, victim=victim,
         assister=assister)
@@ -62,7 +62,7 @@ def _on_kill_assist_call_events(event_data):
     'round_mvp', 'silencer_on', 'silencer_off', 'weapon_fire', 'weapon_fire_on_empty',
     'weapon_reload', 'weapon_zoom')
 def _on_personal_call_events(event_data):
-    player = players[event_data['userid']]
+    player = players.from_userid(event_data['userid'])
     kwargs = event_data.variables.as_dict()
 
     player.hero.call_events(event_data.name, player=player, **kwargs)
@@ -72,8 +72,8 @@ def _on_hurt_call_events(event_data):
     if event_data['userid'] == event_data['attacker'] or event_data['attacker'] == 0:
         return
 
-    attacker = players[event_data['attacker']]
-    victim = players[event_data['userid']]
+    attacker = players.from_userid(event_data['attacker'])
+    victim = players.from_userid(event_data['userid'])
 
     if victim.team == attacker.team:
         attacker.hero.call_events('player_teammate_attack', player=attacker,
@@ -93,8 +93,8 @@ def _pre_damage_call_events(stack_data):
     if not take_damage_info.attacker:
         return
     entity = Entity(take_damage_info.attacker)
-    attacker = players[userid_from_index(entity.index)] if entity.is_player() else None
-    victim = players[userid_from_pointer(stack_data[0])]
+    attacker = players[entity.index] if entity.is_player() else None
+    victim = players[index_from_pointer(stack_data[0])]
 
     event_args = {
         'attacker': attacker,
@@ -114,14 +114,14 @@ def _pre_damage_call_events(stack_data):
 
 @EntityPreHook(EntityCondition.is_human_player, 'run_command')
 def _pre_run_command_call_events(stack_data):
-    player = players[userid_from_pointer(stack_data[0])]
+    player = players[index_from_pointer(stack_data[0])]
     usercmd = make_object(UserCmd, stack_data[1])
 
     player.hero.call_events('player_pre_run_command', player=player, usercmd=usercmd)
 
 @ClientCommandFilter
 def _filter_commands_call_events(command, index):
-    player = players[userid_from_index(index)]
+    player = players[index]
     command_name = command[0]
 
     player.hero.call_clientcommands(command_name, player=player, command=command)

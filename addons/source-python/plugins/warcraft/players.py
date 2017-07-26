@@ -1,7 +1,8 @@
 ## IMPORTS
 
 from events import Event
-from players.entity import Player
+from players.dictionary import PlayerDictionary
+from players.helpers import index_from_userid
 from filters.players import PlayerIter
 from filters.weapons import WeaponClassIter
 
@@ -20,45 +21,34 @@ __all__ = (
 
 ## GLOBALS
 
-players = dict()
+players = PlayerDictionary()
 all_weapons = set(weapon.name for weapon in WeaponClassIter())
 
 for player in PlayerIter():
+    player = players[player.index]
     load_player_data(player)
     load_hero_data(player)
-    players[player.userid] = player
 
 def unload_database():
     manager.connection.commit()
     manager.connection.close()
 
-## PLAYER MANAGMENT    
-  
-@Event('player_spawn')
-def _remove_restrict_on_spawn_message(event_data):
-    player = players[event_data['userid']]
-    if player.team in [2,3]:
-        player.unrestrict_weapons(*all_weapons)   
-    
 ## DATABASE MANAGMENT
-
 @Event('player_spawn')
-def _on_spawn_message(event_data):
-    if not event_data['userid'] in players:
-        player = players[event_data['userid']] = Player.from_userid(event_data['userid'])
+def _setup_player(event_data):
+    if not index_from_userid(event_data['userid']) in players:
+        player = players.from_userid(event_data['userid'])
         load_player_data(player)
         load_hero_data(player)
 
-    player = players[event_data['userid']]
-
 @Event('player_disconnect')
 def _on_disconnect_save_data(event_data):
-    player = players[event_data['userid']]
+    player = players.from_userid(event_data['userid'])
     save_player_data(player)
     save_hero_data(player)
-    del players[event_data['userid']]
+    del players[player.index]
 
 @Event('player_death')
 def _on_death_save_data(event_data):
-    player = players[event_data['userid']]
+    player = players.from_userid(event_data['userid'])
     save_hero_data(player)

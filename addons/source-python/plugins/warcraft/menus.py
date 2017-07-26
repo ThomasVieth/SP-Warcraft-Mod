@@ -1,6 +1,5 @@
 ## IMPORTS
 
-from players.helpers import userid_from_index
 from menus import ListMenu
 from menus import ListOption
 from menus import PagedMenu
@@ -25,7 +24,7 @@ __all__ = (
 ## MENU DEFINITION
 
 def _on_spend_skills_build(menu, index):
-    player = players[userid_from_index(index)]
+    player = players[index]
     menu.clear()
     menu.description = strings['unused'].get_string(
         amount=player.hero.unused_points(player.hero.level))
@@ -34,14 +33,14 @@ def _on_spend_skills_build(menu, index):
             level=skill.level, max_level=skill.max_level), skill))
 
 def _on_spend_skills_select(menu, index, choice):
-    player = players[userid_from_index(index)]
+    player = players[index]
     skill = choice.value
     if player.hero.unused_points(player.hero.level) and skill.level < skill.max_level:
         skill.give_levels(1)
     return menu
 
 def _on_change_hero_build(menu, index):
-    player = players[userid_from_index(index)]
+    player = players[index]
     menu.clear()
     menu.description = strings['change_hero']
     for hero in Hero.get_subclasses():
@@ -53,7 +52,7 @@ def _on_change_hero_build(menu, index):
                 requirement='Owned'), hero, selectable=True))
 
 def _on_change_hero_select(menu, index, choice):
-    player = players[userid_from_index(index)]
+    player = players[index]
     hero = choice.value
     if not hero.name == player.hero.name and hero.meets_requirements(player):
         player.client_command('kill', True)
