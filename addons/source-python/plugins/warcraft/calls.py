@@ -113,6 +113,9 @@ def _pre_damage_call_events(stack_data):
         attacker.hero.call_events('player_pre_attack', player=attacker, **event_args)
         victim.hero.call_events('player_pre_victim', player=victim, **event_args)
 
+        if victim.health <= take_damage_info.damage:
+            attacker.hero.call_events('player_pre_death', player=victim, **event_args)
+
 @EntityPreHook(EntityCondition.is_human_player, 'run_command')
 def _pre_run_command_call_events(stack_data):
     player = players[index_from_pointer(stack_data[0])]
