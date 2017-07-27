@@ -73,6 +73,7 @@ def _on_rank_select(menu, index, choice):
     steamid, hero, name, total = choice.value
     player_rank = ListMenu(title=name, description='Total Level: {}'.format(total),
         parent_menu=menu)
+    player_rank.append(ListOption('Steam ID: {}'.format(steamid)))
     player_rank.append(ListOption('Current Hero: {}'.format(hero)))
     return player_rank
 
