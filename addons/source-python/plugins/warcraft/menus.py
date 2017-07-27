@@ -37,7 +37,8 @@ def _on_spend_skills_select(menu, index, choice):
     skill = choice.value
     if player.hero.unused_points(player.hero.level) and skill.level < skill.max_level:
         skill.give_levels(1)
-    return menu
+    if player.hero.unused_points(player.hero.level) > 0:
+        return menu
 
 def _on_change_hero_build(menu, index):
     player = players[index]
