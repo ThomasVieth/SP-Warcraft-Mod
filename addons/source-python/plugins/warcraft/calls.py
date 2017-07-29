@@ -9,7 +9,6 @@ from entities.hooks import EntityPreHook
 from events import Event
 from memory import make_object
 from players import UserCmd
-from entities.helpers import index_from_pointer
 from players.helpers import userid_from_pointer
 
 from .players import players
@@ -64,6 +63,8 @@ def _on_kill_assist_call_events(event_data):
     'weapon_reload', 'weapon_zoom')
 def _on_personal_call_events(event_data):
     player = players.from_userid(event_data['userid'])
+    if player.index == 0 or player.userid == 0:
+        return
     kwargs = event_data.variables.as_dict()
 
     player.hero.call_events(event_data.name, player=player, **kwargs)
