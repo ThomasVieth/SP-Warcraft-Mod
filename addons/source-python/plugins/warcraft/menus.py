@@ -40,6 +40,21 @@ def _on_spend_skills_select(menu, index, choice):
     if player.hero.unused_points(player.hero.level) > 0:
         return menu
 
+def _on_player_info_build(menu, index):
+    menu.clear()
+    for player in players.values():
+        menu.append(PagedOption(player.name, player))
+
+def _on_player_info_select(menu, index, choice):
+    player = choice.value
+    player_info_menu = ListMenu(title=player.name, parent_menu=menu)
+    player_info_menu.append(Text(player.hero.name))
+    player_info_menu.append(Text(' '))
+    for skill in player.hero.skills:
+        player_info_menu.append(Text('{} ({}/{})'.format(skill.name, skill.level,
+            skill.max_level)))
+    return player_info_menu
+
 def _on_change_hero_build(menu, index):
     player = players[index]
     menu.clear()
@@ -90,7 +105,8 @@ main_menu = PagedMenu(
     data=[
     PagedOption(strings['change_hero'], 1),
     PagedOption(strings['spend_skills'], 2),
-    PagedOption(strings['warcraft_rank'], 3)
+    PagedOption(strings['warcraft_rank'], 3),
+    PagedOption(strings['player_info'], 4)
     ]
 )
 
@@ -108,6 +124,13 @@ spend_skills = PagedMenu(
     parent_menu=main_menu,
 )
 
+player_info = PagedMenu(
+    title=strings['player_info'],
+    build_callback=_on_player_info_build,
+    select_callback=_on_player_info_select,
+    parent_menu=main_menu,
+)
+    
 warcraft_rank = PagedMenu(
     title=strings['warcraft_rank'],
     build_callback=_on_rank_build,
@@ -119,4 +142,5 @@ _main_menu_selections = {
     1: change_hero,
     2: spend_skills,
     3: warcraft_rank,
+    4: player_info,
 }
