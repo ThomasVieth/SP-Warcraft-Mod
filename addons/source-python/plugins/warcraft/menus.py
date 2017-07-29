@@ -71,11 +71,13 @@ def _on_rank_build(menu, index):
         menu.append(PagedOption('{} - {}'.format(num+1, name), player_data))
     
 def _on_rank_select(menu, index, choice):
-    steamid, hero, name, total = choice.value
-    player_rank = ListMenu(title=name, description='Total Level: {}'.format(total),
+    steamid, hero_name, player_name, total = choice.value
+    hero = Hero.get_subclass_dict()[hero_name]
+    player_rank = ListMenu(title=player_name, description='Total Level: {}'.format(total),
         parent_menu=menu)
     player_rank.append(ListOption('Steam ID: {}'.format(steamid)))
-    player_rank.append(ListOption('Current Hero: {}'.format(hero)))
+    player_rank.append(Text(' '))
+    player_rank.append(ListOption('Current Hero: {}'.format(hero.name)))
     return player_rank
 
 def _on_main_menu_select(menu, index, choice):
