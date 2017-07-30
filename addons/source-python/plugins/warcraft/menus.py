@@ -19,6 +19,7 @@ __all__ = (
     'change_hero',
     'warcraft_rank',
     'main_menu',
+    'player_info',
     )
 
 ## MENU DEFINITION
