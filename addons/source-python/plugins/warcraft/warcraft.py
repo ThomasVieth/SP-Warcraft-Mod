@@ -48,7 +48,7 @@ def _player_info_say_command(command, index, team_only=None):
     return CommandReturn.BLOCK
 
 @SayCommand('warcraft')
-def _change_hero_say_command(command, index, team_only=None):
+def _main_menu_say_command(command, index, team_only=None):
     main_menu.send(index)
     return CommandReturn.BLOCK
 
