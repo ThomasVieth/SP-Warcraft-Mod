@@ -35,7 +35,7 @@ def log(priority=0, *args):
     if priority not in log_priority:
         return
 
-    if priority >= LOG_PRIORITY:
+    if priority > LOG_PRIORITY:
         return
 
     log_function = log_priority[priority]
