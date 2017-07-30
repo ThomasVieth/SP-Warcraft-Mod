@@ -12,6 +12,9 @@ from ..listeners import HeroLevelChange
 
 __all__ = (
     'Hero',
+    'Skill',
+    'events',
+    'clientcommands',
     )
 
 ## INIT ALL HERO MODULES
