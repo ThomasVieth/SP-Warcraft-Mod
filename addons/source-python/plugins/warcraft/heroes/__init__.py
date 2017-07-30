@@ -149,12 +149,18 @@ class Hero:
             return
         for method in self._events[event_name]:
             method(*args, **kwargs)
+            log(2, 'Calling event <{}> in <{}>.'.format(event_name,
+                self.__class__.__name__)
+            )
 
     def call_clientcommands(self, clientcommand, *args, **kwargs):
         if not clientcommand in self._clientcommands:
             return
         for method in self._clientcommands[clientcommand]:
             method(*args, **kwargs)
+            log(2, 'Calling clientcommand <{}> in <{}>.'.format(clientcommand,
+                self.__class__.__name__)
+            )
 
     # Decorators for embedding skills into
     # heroes.
