@@ -18,6 +18,7 @@ __all__ = (
     'spend_skills',
     'change_hero',
     'warcraft_rank',
+    'hero_info',
     'main_menu',
     'player_info',
     )
@@ -77,6 +78,21 @@ def _on_change_hero_select(menu, index, choice):
         load_hero_data(player)
     return
 
+def _on_hero_info_build(menu, index):
+    menu.clear()
+    for hero in Hero.get_subclasses():
+        menu.append(PagedOption(strings['hero'].get_string(hero=hero.name,
+            requirement=hero.requirement), hero, selectable=True))
+
+def _on_hero_info_select(menu, index, choice):
+    hero = choice.value
+    hero_info_menu = ListMenu(title=hero.name, description=hero.description,
+        parent_menu=menu)
+    for skill in hero._skills:
+        hero_info_menu.append(ListOption(skill.name))
+        hero_info_menu.append(Text(skill.description))
+    return hero_info_menu
+
 def _on_rank_build(menu, index):
     menu.clear()
     ranks = list(get_rank_list())
@@ -106,8 +122,9 @@ main_menu = PagedMenu(
     data=[
     PagedOption(strings['change_hero'], 1),
     PagedOption(strings['spend_skills'], 2),
-    PagedOption(strings['warcraft_rank'], 3),
-    PagedOption(strings['player_info'], 4)
+    PagedOption(strings['hero_info'], 3),
+    PagedOption(strings['warcraft_rank'], 4),
+    PagedOption(strings['player_info'], 5)
     ]
 )
 
@@ -122,6 +139,13 @@ spend_skills = PagedMenu(
     title=strings['spend_skills'],
     build_callback=_on_spend_skills_build,
     select_callback=_on_spend_skills_select,
+    parent_menu=main_menu,
+)
+
+hero_info = PagedMenu(
+    title=strings['hero_info'],
+    build_callback=_on_hero_info_build,
+    select_callback=_on_hero_info_select,
     parent_menu=main_menu,
 )
 
@@ -142,6 +166,7 @@ warcraft_rank = PagedMenu(
 _main_menu_selections = {
     1: change_hero,
     2: spend_skills,
-    3: warcraft_rank,
-    4: player_info,
+    3: hero_info,
+    4: warcraft_rank,
+    5: player_info,
 }

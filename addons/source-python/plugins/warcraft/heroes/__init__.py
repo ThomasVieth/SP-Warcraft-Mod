@@ -27,6 +27,8 @@ __all__ += heroes
 ## RACE CLASS DEFINITION
 
 class Hero:
+    name = ''
+    description = ''
 
     _skills = tuple()
 
@@ -197,6 +199,8 @@ class Hero:
 ## SKILL CLASS DEFINITION
 
 class Skill:
+    name = ''
+    description = ''
 
     max_level = 0
 
