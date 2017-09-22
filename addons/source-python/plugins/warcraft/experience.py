@@ -32,7 +32,7 @@ def _on_kill_assist_give_experience(event_data):
 
     attacker = players.from_userid(event_data['attacker'])
     assister = None
-    if event_data['assister']:
+    if 'assister' in event_data.variables and event_data['assister']:
         assister = players.from_userid(event_data['assister'])
 
     attacker.hero.give_experience(WARCRAFT_KILL_EXPERIENCE)
