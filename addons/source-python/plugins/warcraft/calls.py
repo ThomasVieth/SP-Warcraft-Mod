@@ -38,7 +38,7 @@ def _on_kill_assist_call_events(event_data):
     attacker = players.from_userid(event_data['attacker'])
     victim = players.from_userid(event_data['userid'])
     assister = None
-    if event_data['assister']:
+    if 'assister' in event_data.variables and event_data['assister']:
         assister = players.from_userid(event_data['assister'])
 
     attacker.hero.call_events('player_kill', player=attacker, victim=victim,
