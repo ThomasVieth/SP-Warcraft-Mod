@@ -1,3 +1,7 @@
+# Files created by the plugin
+/addons/source-python/plugins/warcraft/database/players.sqlite
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
