@@ -62,11 +62,15 @@ def _on_kill_assist_call_events(event_data):
     'round_mvp', 'silencer_on', 'silencer_off', 'weapon_fire', 'weapon_fire_on_empty',
     'weapon_reload', 'weapon_zoom')
 def _on_personal_call_events(event_data):
-    player = players.from_userid(event_data['userid'])
-    if player.index == 0 or player.userid == 0:
+    userid = event_data['userid']
+    if userid == 0:
         return
-    kwargs = event_data.variables.as_dict()
 
+    player = players.from_userid(userid)
+    if player.index == 0:
+        return
+
+    kwargs = event_data.variables.as_dict()
     player.hero.call_events(event_data.name, player=player, **kwargs)
 
 @Event('player_hurt')
