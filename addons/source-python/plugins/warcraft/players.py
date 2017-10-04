@@ -33,6 +33,10 @@ def setup_player(index):
 players = PlayerDictionary(factory=setup_player)
 
 def unload_database():
+    for player in PlayerIter():
+        userid = player.userid
+        save_player_data(players[userid])
+        save_hero_data(players[userid])
     manager.connection.commit()
     manager.connection.close()
 
@@ -48,3 +52,11 @@ def _on_disconnect_save_data(event_data):
 def _on_death_save_data(event_data):
     player = players.from_userid(event_data['userid'])
     save_hero_data(player)
+
+@Event('round_end')
+def _on_round_end_save_data(event_data):
+    for player in PlayerIter():
+        userid = player.userid
+        save_player_data(players[userid])
+        save_hero_data(players[userid])
+    manager.connection.commit()
