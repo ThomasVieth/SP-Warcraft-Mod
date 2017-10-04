@@ -77,7 +77,7 @@ def _on_spawn_check_hero_requirement(event_data):
 def _on_level_change(hero):
     player = hero.owner
     spend_skills.send(player)
-    pointer = player.give_named_item('env_smokestack', 0, None, False)
+    pointer = player.give_named_item('env_smokestack')
     entity = Entity(index_from_pointer(pointer))
 
     Model('effects/yellowflare.vmt')
