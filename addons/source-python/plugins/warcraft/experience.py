@@ -3,9 +3,10 @@
 from events import Event
 
 from .config import (WARCRAFT_KILL_EXPERIENCE, WARCRAFT_ASSIST_EXPERIENCE,
-    WARCRAFT_ROUND_WIN_EXPERIENCE, WARCRAFT_ROUND_LOSS_EXPERIENCE,
-    WARCRAFT_PLANT_EXPERIENCE, WARCRAFT_EXPLODE_EXPERIENCE, WARCRAFT_DEFUSE_EXPERIENCE,
-    WARCRAFT_CHICKEN_EXPERIENCE)
+                     WARCRAFT_HEADSHOT_EXPERIENCE, WARCRAFT_KNIFE_EXPERIENCE,
+                     WARCRAFT_ROUND_WIN_EXPERIENCE, WARCRAFT_ROUND_LOSS_EXPERIENCE, WARCRAFT_ROUND_MVP_EXPERIENCE,
+                     WARCRAFT_PLANT_EXPERIENCE, WARCRAFT_EXPLODE_EXPERIENCE, WARCRAFT_DEFUSE_EXPERIENCE,
+                     WARCRAFT_CHICKEN_EXPERIENCE)
 from .players import players
 from .strings import give_experience
 
@@ -31,18 +32,34 @@ def _on_kill_assist_give_experience(event_data):
         return
 
     attacker = players.from_userid(event_data['attacker'])
-    assister = None
+
+    exp = WARCRAFT_KILL_EXPERIENCE
+    reason = 'for killing an enemy'
+
+    if event_data['weapon'] == 'knife':
+        exp += WARCRAFT_KNIFE_EXPERIENCE
+        reason += ' with a knife'
+
+    if event_data['headshot']:
+        exp += WARCRAFT_HEADSHOT_EXPERIENCE
+        reason += ' with a headshot'
+
+    attacker.hero.give_experience(exp)
+    give_experience.send(attacker.index, amount=exp, reason=reason)
+
     if 'assister' in event_data.variables and event_data['assister']:
         assister = players.from_userid(event_data['assister'])
 
-    attacker.hero.give_experience(WARCRAFT_KILL_EXPERIENCE)
-    give_experience.send(attacker.index, amount=WARCRAFT_KILL_EXPERIENCE,
-        reason='for killing an enemy')
-
-    if assister:
         assister.hero.give_experience(WARCRAFT_ASSIST_EXPERIENCE)
         give_experience.send(assister.index, amount=WARCRAFT_ASSIST_EXPERIENCE,
         reason='for assisting a kill')
+
+@Event('round_mvp')
+def _give_xp_on_mvp(event_data):
+    player = players.from_userid(event_data['userid'])
+    exp = WARCRAFT_ROUND_MVP_EXPERIENCE
+    player.hero.give_experience(exp)
+    give_experience.send(player.index, amount=exp, reason='for being MVP')
 
 @Event('round_end')
 def _on_round_end_give_experience(event_data):
